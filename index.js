@@ -10,7 +10,12 @@ module.exports = function(content) {
 	var query = loaderUtils.parseQuery(this.query);
 	var url = loaderUtils.interpolateName(this, query.name || "[hash].[ext]", {
 		context: query.context || this.options.context,
-		content: content,
+		content: query.hashSource ?
+			loaderUtils.interpolateName(this, query.hashSource, {
+				context: query.context || this.options.context,
+				content: content,
+				regExp: query.regExp
+			}) : content,
 		regExp: query.regExp
 	});
 	this.emitFile(url, content);

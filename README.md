@@ -25,12 +25,23 @@ use `?name=[path][name].[ext]`.
 * `[ext]` the extension of the resource
 * `[name]` the basename of the resource
 * `[path]` the path of the resource relative to the `context` query parameter or option.
-* `[hash]` the hash or the content
+* `[hash]` the hash of the content (or the hash source, if the `hashSource` query parameter is present; see below)
 * `[<hashType>:hash:<digestType>:<length>]` optionally you can configure
   * other `hashType`s, i. e. `sha1`, `md5`, `sha256`, `sha512`
   * other `digestType`s, i. e. `hex`, `base26`, `base32`, `base36`, `base49`, `base52`, `base58`, `base62`, `base64`
   * and `length` the length in chars
 * `[N]` the N-th match obtained from matching the current file name against the query param `regExp`
+
+### Hash Source
+
+* the `hashSource` parameter, if supplied, is used to generate the string that is hashed instead of the resource content
+* the `hashSource` parameter works similar to the `name` parameter (above), in that it interpolates:
+  * `[name]`
+  * `[ext]`
+  * `[path]`
+  * `[N]`
+  * `[hash]`, `[<hashType>:hash:<digestType>:<length>]`
+* using `[hash]` here will always hash the actual file content, and *not* apply the `hashSource` parameter recursively
 
 ## Examples
 

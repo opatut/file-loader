@@ -48,6 +48,16 @@ describe("correct-filename", function() {
 	it("should process hash correctly", function() {
 		test("d93591bdf7860e1e4ee2fca799911215.txt", "/file.txt", "", new Buffer("4321"));
 	});
+	it("should process hash correctly with hashSource", function() {
+		test("d93591bdf7860e1e4ee2fca799911215", "/file.txt", "name=[hash]&hashSource=4321", new Buffer("this is now ignored"));
+
+		// _/_/dir/sub/file.txt -> dde79bae5d8976020fac1a1abc2a5fe0 -> dde79b
+		test("dde79b.txt", "/this/is/dir/sub/file.txt", "name=[hash:6].[ext]&hashSource=[path][name].[ext]", new Buffer("this is now ignored"));
+
+		// hash the hash!
+		// ("this is hashed first" -> 1156435cbc63f8a6d5ffd9ba9a28b93f -> "115643") + "file" -> 4ffa1e0999ec8d00aef5eee6b5f2aab5 -> 4ffa
+		test("4ffa.txt", "file.txt", "name=[hash:4].[ext]&hashSource=[hash:6][name]", new Buffer("this is hashed first"));
+	});
 	it("should process hash options correctly", function() {
 		test("81dc9.txt", "/file.txt", "name=[hash:5].[ext]");
 		test("d4045.txt", "/file.txt", "name=[sha512:hash:5].[ext]");
@@ -56,5 +66,4 @@ describe("correct-filename", function() {
 		test("sntmopgidsdqrofkjywoyldtiij.txt", "/file.txt", "name=[hash:base26].[ext]");
 		test("sntmopgids.txt", "/file.txt", "name=[hash:base26:10].[ext]");
 	});
-	
 });
