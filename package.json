@@ -7,7 +7,7 @@
     "index.js"
   ],
   "dependencies": {
-    "loader-utils": "~0.2.5"
+    "loader-utils": "opatut/loader-utils#feature/source-pattern"
   },
   "devDependencies": {
     "should": "~4.0.4",
